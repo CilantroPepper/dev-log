@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>202212-3 JPEG解码 | Cilantro&#39;s PR</title>
+  <meta name="description" content="提交次数：2 得分：40 - 100   第一次提交直接开摆，测一下填充矩阵有没有问题，通过以后才写量化矩阵。  问题 http:&#x2F;&#x2F;118.190.20.162&#x2F;view.page?gpid&#x3D;T158  方法 填充矩阵  我认为整道题目最难的地方在于这个填充矩阵的填充方式。这样的填充方式我曾经在力扣上有刷到过，为此我还去翻了一下之前的解题过程，问题详见：对角线遍历  特别的，我们会发现这种遍历">
+<meta property="og:type" content="article">
+<meta property="og:title" content="202212-3 JPEG解码">
+<meta property="og:url" content="http://cilantropepper.github.io/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="Cilantro&#39;s PR">
+<meta property="og:description" content="提交次数：2 得分：40 - 100   第一次提交直接开摆，测一下填充矩阵有没有问题，通过以后才写量化矩阵。  问题 http:&#x2F;&#x2F;118.190.20.162&#x2F;view.page?gpid&#x3D;T158  方法 填充矩阵  我认为整道题目最难的地方在于这个填充矩阵的填充方式。这样的填充方式我曾经在力扣上有刷到过，为此我还去翻了一下之前的解题过程，问题详见：对角线遍历  特别的，我们会发现这种遍历">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cilantropepper.github.io/dev-log/image/2212-3-1.png">
+<meta property="og:image" content="http://cilantropepper.github.io/dev-log/image/2212-3-2.png">
+<meta property="article:published_time" content="2023-04-18T11:18:31.000Z">
+<meta property="article:modified_time" content="2023-04-18T13:48:42.715Z">
+<meta property="article:author" content="Cilantro Pepper">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cilantropepper.github.io/dev-log/image/2212-3-1.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://cilantropepper.github.io/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Cilantro&#39;s PR" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/dev-log/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/dev-log/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/CilantroPepper" target="_blank">
+          <img class="img-circle img-rotate" src="/dev-log/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Cilantro Pepper</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">SCNU CSer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Guangzhou, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/dev-log/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/dev-log/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/dev-log/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/dev-log/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a target="_blank" rel="noopener" href="https://github.com/CilantroPepper">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/CilantroPepper" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/dev-log/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>Welcome!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/dev-log/categories/CSP/">CSP</a><span class="category-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/dev-log/tags/C/" rel="tag">C++</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/dev-log/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/dev-log/tags/C/" style="font-size: 14px;">C++</a> <a href="/dev-log/tags/Python/" style="font-size: 13px;">Python</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/dev-log/archives/2023/04/">四月 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/dev-log/archives/2023/03/">三月 2023</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+              </p>
+              <p class="item-title">
+                <a href="/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/" class="title">202212-3 JPEG解码</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-18T11:18:31.000Z" itemprop="datePublished">2023-04-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+              </p>
+              <p class="item-title">
+                <a href="/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" class="title">202212-2 训练计划</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-17T08:13:13.000Z" itemprop="datePublished">2023-04-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+              </p>
+              <p class="item-title">
+                <a href="/dev-log/2023/04/03/202212-1-%E7%8E%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" class="title">202212-1 现值计算</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-03T11:39:44.000Z" itemprop="datePublished">2023-04-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+              </p>
+              <p class="item-title">
+                <a href="/dev-log/2023/03/31/202303-3-LDAP/" class="title">202303-3 LDAP</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-31T15:11:25.000Z" itemprop="datePublished">2023-03-31</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+              </p>
+              <p class="item-title">
+                <a href="/dev-log/2023/03/29/202303-2-%E5%9E%A6%E7%94%B0%E8%AE%A1%E5%88%92/" class="title">202303-2 垦田计划</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-29T12:57:03.000Z" itemprop="datePublished">2023-03-29</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-202212-3-JPEG解码" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      202212-3 JPEG解码
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/" class="article-date">
+	  <time datetime="2023-04-18T11:18:31.000Z" itemprop="datePublished">2023-04-18</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/dev-log/categories/CSP/">CSP</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/dev-log/tags/C/" rel="tag">C++</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <ul>
+<li>提交次数：2</li>
+<li>得分：40 - 100</li>
+</ul>
+<blockquote>
+<p>第一次提交直接开摆，测一下填充矩阵有没有问题，通过以后才写量化矩阵。</p>
+</blockquote>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://118.190.20.162/view.page?gpid=T158">http://118.190.20.162/view.page?gpid=T158</a></li>
+</ul>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><ol>
+<li><p>填充矩阵</p>
+<p><img src="/dev-log/image/2212-3-1.png" alt="2212-3-1"></p>
+<p>我认为整道题目最难的地方在于这个填充矩阵的填充方式。这样的填充方式我曾经在<a target="_blank" rel="noopener" href="https://leetcode.cn/">力扣</a>上有刷到过，为此我还去翻了一下之前的解题过程，问题详见：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/diagonal-traverse/">对角线遍历</a></p>
+<p><img src="/dev-log/image/2212-3-2.png" alt="2212-3-1"></p>
+<p>特别的，我们会发现这种遍历方式的特点是：</p>
+<ul>
+<li><strong>行号和列号始终一加一减</strong></li>
+<li>行号和列号在遍历到边界时，更改遍历方向，也就是在：<code>行+列-</code> 和 <code>列+行-</code> 间不断切换。</li>
+<li>为了方便表示，下面我将以 <code>x</code> 和 <code>y</code> 代替行列，并且将每一个方向不同的遍历向量称作<strong>一趟遍历</strong>，我们会发现每一趟遍历的起点都是 <code>x</code> | <code>y</code> 各自的边界，但是当遍历到副对角线以后的向量，起点的下界不再是 <code>0</code> 而是 <strong>趟次 - 维数</strong>。</li>
+<li>解题过程中其实只用考虑一个方向，当遍历到另一个方向时，逻辑上是<strong>完全相反</strong>的，也就是直接将 <code>x</code> 和 <code>y</code> 相反来看就好。</li>
+</ul>
+<p>结合这道题的实际情况，当 <code>scanData</code> 中的数据被用完后，填充矩阵剩余部分全部填0。</p>
+<p>填充矩阵的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 填充</span></span><br><span class="line"><span class="function"><span class="type">int</span> **<span class="title">padding</span><span class="params">(<span class="type">int</span> *scanData, <span class="type">int</span> scanCount, <span class="type">int</span> dim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> **padMatrix = <span class="keyword">new</span> <span class="type">int</span> *[dim];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">        padMatrix[i] = <span class="keyword">new</span> <span class="type">int</span>[dim];</span><br><span class="line">    <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> count = <span class="number">0</span>, scanIdx = <span class="number">0</span>; count &lt; dim + dim; ++count)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x = count &lt; dim ? count : dim - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> y = count - x;</span><br><span class="line">        <span class="keyword">while</span> (x &gt;= <span class="number">0</span> &amp;&amp; y &lt; dim)</span><br><span class="line">        &#123;</span><br><span class="line">            padMatrix[flag ? x : y][flag ? y : x] = scanIdx &lt; scanCount ? scanData[scanIdx++] : <span class="number">0</span>;</span><br><span class="line">            --x;</span><br><span class="line">            ++y;</span><br><span class="line">        &#125;</span><br><span class="line">        flag = !flag;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> padMatrix;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>与量化矩阵相乘</p>
+<p>只要得到了上面的填充矩阵后，只需要一对一乘上量化矩阵的元素值就好，至此 40 分轻松拿下。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 乘量化矩阵</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">multiplyMatrix</span><span class="params">(<span class="type">int</span> **target, <span class="type">int</span> **source, <span class="type">int</span> dim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; dim; ++j)</span><br><span class="line">            target[i][j] *= source[i][j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>离散余弦变换</p>
+<ul>
+<li>根据题目提示，PI 由 <code>acos(-1)</code> 得出</li>
+<li>有一个小坑，在进行这一步变换的时候一定是根据<strong>原矩阵</strong>来进行的，所以在<strong>变换前一定要进行备份</strong>，不能使用变换后的矩阵值再去变换。</li>
+<li>剩下的就是直接根据题目描述列出公式，两个累加和可以使用<strong>双层循环</strong>模拟，然后记得变换完再加上128后的数据，必须是<strong>四舍五入</strong>的，也就是应该使用 <code>&lt;cmath&gt;</code> 中的 <code>round()</code> 函数来完成，然后再套上一层 <code>(int)</code> 强转。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 离散余弦变换</span></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">compute</span><span class="params">(<span class="type">int</span> **matrix, <span class="type">int</span> i, <span class="type">int</span> j)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">double</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="type">double</span> x = <span class="built_in">sqrt</span>(<span class="number">0.5</span>);</span><br><span class="line">    <span class="type">double</span> y = PI / <span class="number">8</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> u = <span class="number">0</span>; u &lt; <span class="number">8</span>; ++u)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> v = <span class="number">0</span>; v &lt; <span class="number">8</span>; ++v)</span><br><span class="line">        &#123;</span><br><span class="line">            res += <span class="number">1.0</span> * ( u == <span class="number">0</span> ? x : <span class="number">1</span>) * (v == <span class="number">0</span> ? x : <span class="number">1</span>) * matrix[u][v] * <span class="built_in">cos</span>(y * (i + <span class="number">0.5</span>) * u) * <span class="built_in">cos</span>(y * (j + <span class="number">0.5</span>) * v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.25</span> * res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 变换</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">convert</span><span class="params">(<span class="type">int</span> **matrix, <span class="type">int</span> dim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 备份原矩阵，避免因为离散变换的破坏</span></span><br><span class="line">    <span class="type">int</span> **cp = <span class="keyword">new</span> <span class="type">int</span>*[dim];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        cp[i] = <span class="keyword">new</span> <span class="type">int</span>[dim];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; dim; ++j)</span><br><span class="line">            cp[i][j] = matrix[i][j];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; dim; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            matrix[i][j] = (<span class="type">int</span>)<span class="built_in">round</span>(<span class="built_in">compute</span>(cp, i, j) + <span class="number">128</span>);</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] &gt; <span class="number">255</span>) matrix[i][j] = <span class="number">255</span>;</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] &lt; <span class="number">0</span>) matrix[i][j] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><ul>
+<li>得分：100</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PI acos(-1)</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印矩阵</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printMatrix</span><span class="params">(<span class="type">int</span> **martrix, <span class="type">int</span> dim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; dim; ++j)</span><br><span class="line">            cout &lt;&lt; martrix[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 填充</span></span><br><span class="line"><span class="function"><span class="type">int</span> **<span class="title">padding</span><span class="params">(<span class="type">int</span> *scanData, <span class="type">int</span> scanCount, <span class="type">int</span> dim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> **padMatrix = <span class="keyword">new</span> <span class="type">int</span> *[dim];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">        padMatrix[i] = <span class="keyword">new</span> <span class="type">int</span>[dim];</span><br><span class="line">    <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> count = <span class="number">0</span>, scanIdx = <span class="number">0</span>; count &lt; dim + dim; ++count)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x = count &lt; dim ? count : dim - <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> y = count - x;</span><br><span class="line">        <span class="keyword">while</span> (x &gt;= <span class="number">0</span> &amp;&amp; y &lt; dim)</span><br><span class="line">        &#123;</span><br><span class="line">            padMatrix[flag ? x : y][flag ? y : x] = scanIdx &lt; scanCount ? scanData[scanIdx++] : <span class="number">0</span>;</span><br><span class="line">            --x;</span><br><span class="line">            ++y;</span><br><span class="line">        &#125;</span><br><span class="line">        flag = !flag;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> padMatrix;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘量化矩阵</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">multiplyMatrix</span><span class="params">(<span class="type">int</span> **target, <span class="type">int</span> **source, <span class="type">int</span> dim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; dim; ++j)</span><br><span class="line">            target[i][j] *= source[i][j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 离散余弦变换</span></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">compute</span><span class="params">(<span class="type">int</span> **matrix, <span class="type">int</span> i, <span class="type">int</span> j)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">double</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="type">double</span> x = <span class="built_in">sqrt</span>(<span class="number">0.5</span>);</span><br><span class="line">    <span class="type">double</span> y = PI / <span class="number">8</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> u = <span class="number">0</span>; u &lt; <span class="number">8</span>; ++u)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> v = <span class="number">0</span>; v &lt; <span class="number">8</span>; ++v)</span><br><span class="line">        &#123;</span><br><span class="line">            res += <span class="number">1.0</span> * ( u == <span class="number">0</span> ? x : <span class="number">1</span>) * (v == <span class="number">0</span> ? x : <span class="number">1</span>) * matrix[u][v] * <span class="built_in">cos</span>(y * (i + <span class="number">0.5</span>) * u) * <span class="built_in">cos</span>(y * (j + <span class="number">0.5</span>) * v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.25</span> * res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 变换</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">convert</span><span class="params">(<span class="type">int</span> **matrix, <span class="type">int</span> dim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 备份原矩阵，避免因为离散变换的破坏</span></span><br><span class="line">    <span class="type">int</span> **cp = <span class="keyword">new</span> <span class="type">int</span>*[dim];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        cp[i] = <span class="keyword">new</span> <span class="type">int</span>[dim];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; dim; ++j)</span><br><span class="line">            cp[i][j] = matrix[i][j];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dim; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; dim; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            matrix[i][j] = (<span class="type">int</span>)<span class="built_in">round</span>(<span class="built_in">compute</span>(cp, i, j) + <span class="number">128</span>);</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] &gt; <span class="number">255</span>) matrix[i][j] = <span class="number">255</span>;</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] &lt; <span class="number">0</span>) matrix[i][j] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> **QuanMatrix = <span class="keyword">new</span> <span class="type">int</span>*[<span class="number">8</span>]; <span class="comment">// 量化矩阵</span></span><br><span class="line">    <span class="type">int</span> scanCount;        <span class="comment">// 扫描个数</span></span><br><span class="line">    <span class="type">int</span> T;                <span class="comment">// 即将进行的任务</span></span><br><span class="line">    <span class="type">int</span> *scanData;        <span class="comment">// 扫描数据</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        QuanMatrix[i] = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">8</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; <span class="number">8</span>; ++j)</span><br><span class="line">            cin &gt;&gt; QuanMatrix[i][j];</span><br><span class="line">    &#125;</span><br><span class="line">    cin &gt;&gt; scanCount &gt;&gt; T;</span><br><span class="line">    scanData = <span class="keyword">new</span> <span class="type">int</span>[scanCount];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; scanCount; ++i)</span><br><span class="line">        cin &gt;&gt; scanData[i];</span><br><span class="line">    <span class="type">int</span> **matrix = <span class="built_in">padding</span>(scanData, scanCount, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">if</span> (T == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printMatrix</span>(matrix, <span class="number">8</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">multiplyMatrix</span>(matrix, QuanMatrix, <span class="number">8</span>); <span class="comment">// 量化</span></span><br><span class="line">    <span class="keyword">if</span> (T == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printMatrix</span>(matrix, <span class="number">8</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">convert</span>(matrix, <span class="number">8</span>);</span><br><span class="line">    <span class="built_in">printMatrix</span>(matrix, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>至此这道模拟就完成了，其实最难的地方应该是对角线遍历那里，做出来了以后应该是一马平川了。</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://cilantropepper.github.io/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/" title="202212-3 JPEG解码" target="_blank" rel="external">http://cilantropepper.github.io/dev-log/2023/04/18/202212-3-JPEG解码/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/CilantroPepper" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/dev-log/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/CilantroPepper" target="_blank"><span class="text-dark">Cilantro Pepper</span><small class="ml-1x">SCNU CSer</small></a></h3>
+        <div>华南师范大学计算机学院 | 计算机科学与技术专业</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" title="202212-2 训练计划"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone,wechat"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/CilantroPepper" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/dev-log/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2023 Cilantro Pepper
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/dev-log/js/plugin.min.js"></script>
+
+
+<script src="/dev-log/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/dev-log/',
+        CONTENT_URL: '/dev-log/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/dev-log/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://cilantropepper.github.io/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/';
+        
+        this.page.identifier = '202212-3-JPEG解码';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'cilantropepper' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
