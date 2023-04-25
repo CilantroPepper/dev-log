@@ -21,28 +21,28 @@
   <meta name="description" content="提交次数：2 得分：70 - 100  问题 http:&#x2F;&#x2F;118.190.20.162&#x2F;view.page?gpid&#x3D;T159  方法 对于70%的数据，无需考虑依赖关系影响的“最晚开始时间”。  并且题设已经告知我们，被依赖的项编号一定在依赖它的项编号之前，那么只需要：  维护一个去除依赖关系的耗时表，遵循这样一个逻辑：因为依赖关系的存在，所以该项进行前必须先经历 x 时间将它的前置任务都做">
 <meta property="og:type" content="article">
 <meta property="og:title" content="202212-2 训练计划">
-<meta property="og:url" content="http://cilantropepper.github.io/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/index.html">
+<meta property="og:url" content="https://dev.cypercream.site/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/index.html">
 <meta property="og:site_name" content="Cilantro&#39;s PR">
 <meta property="og:description" content="提交次数：2 得分：70 - 100  问题 http:&#x2F;&#x2F;118.190.20.162&#x2F;view.page?gpid&#x3D;T159  方法 对于70%的数据，无需考虑依赖关系影响的“最晚开始时间”。  并且题设已经告知我们，被依赖的项编号一定在依赖它的项编号之前，那么只需要：  维护一个去除依赖关系的耗时表，遵循这样一个逻辑：因为依赖关系的存在，所以该项进行前必须先经历 x 时间将它的前置任务都做">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://cilantropepper.github.io/dev-log/image/2212-2-1.png">
-<meta property="og:image" content="http://cilantropepper.github.io/dev-log/image/2212-2-2.png">
+<meta property="og:image" content="https://dev.cypercream.site/dev-log/image/2212-2-1.png">
+<meta property="og:image" content="https://dev.cypercream.site/dev-log/image/2212-2-2.png">
 <meta property="article:published_time" content="2023-04-17T08:13:13.000Z">
 <meta property="article:modified_time" content="2023-04-17T08:55:37.913Z">
 <meta property="article:author" content="Cilantro Pepper">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://cilantropepper.github.io/dev-log/image/2212-2-1.png">
+<meta name="twitter:image" content="https://dev.cypercream.site/dev-log/image/2212-2-1.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://cilantropepper.github.io/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/index.html">
+  <link rel="canonical" href="https://dev.cypercream.site/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Cilantro&#39;s PR" type="application/atom+xml">
   
   
-    <link rel="icon" href="/dev-log/favicon.png" type="image/x-icon">
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
   
   
-<link rel="stylesheet" href="/dev-log/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 
   
   
@@ -59,7 +59,7 @@
       
       <div class="profile-block text-center">
         <a id="avatar" href="https://github.com/CilantroPepper" target="_blank">
-          <img class="img-circle img-rotate" src="/dev-log/images/avatar.jpg" width="200" height="200">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">Cilantro Pepper</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">SCNU CSer</h3>
@@ -103,7 +103,7 @@
         
         
         <li class="menu-item menu-item-home">
-          <a href="/dev-log/.">
+          <a href="/.">
             
             <i class="icon icon-home-fill"></i>
             
@@ -113,7 +113,7 @@
         
         
         <li class="menu-item menu-item-archives">
-          <a href="/dev-log/archives">
+          <a href="/archives">
             
             <i class="icon icon-archives-fill"></i>
             
@@ -123,7 +123,7 @@
         
         
         <li class="menu-item menu-item-categories">
-          <a href="/dev-log/categories">
+          <a href="/categories">
             
             <i class="icon icon-folder"></i>
             
@@ -133,7 +133,7 @@
         
         
         <li class="menu-item menu-item-tags">
-          <a href="/dev-log/tags">
+          <a href="/tags">
             
             <i class="icon icon-tags"></i>
             
@@ -143,7 +143,7 @@
         
         
         <li class="menu-item menu-item-repository">
-          <a target="_blank" rel="noopener" href="https://github.com/CilantroPepper">
+          <a target="_blank" rel="noopener" href="https://github.com/CilantroPepper/dev-log/">
             
             <i class="icon icon-project"></i>
             
@@ -158,7 +158,7 @@
     	
         <li><a href="https://github.com/CilantroPepper" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/dev-log/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -186,7 +186,7 @@
   <div class="widget">
     <h3 class="widget-title">分类</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/dev-log/categories/CSP/">CSP</a><span class="category-list-count">7</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSP/">CSP</a><span class="category-list-count">7</span></li></ul>
     </div>
   </div>
 
@@ -196,7 +196,7 @@
   <div class="widget">
     <h3 class="widget-title">标签</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/dev-log/tags/C/" rel="tag">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/dev-log/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C++</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -206,7 +206,7 @@
   <div class="widget">
     <h3 class="widget-title">标签云</h3>
     <div class="widget-body tagcloud">
-      <a href="/dev-log/tags/C/" style="font-size: 14px;">C++</a> <a href="/dev-log/tags/Python/" style="font-size: 13px;">Python</a>
+      <a href="/tags/C/" style="font-size: 14px;">C++</a> <a href="/tags/Python/" style="font-size: 13px;">Python</a>
     </div>
   </div>
 
@@ -215,7 +215,7 @@
   <div class="widget">
     <h3 class="widget-title">归档</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/dev-log/archives/2023/04/">四月 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/dev-log/archives/2023/03/">三月 2023</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -231,10 +231,10 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+                <a class="category-link" href="/categories/CSP/">CSP</a>
               </p>
               <p class="item-title">
-                <a href="/dev-log/2023/04/19/202209-1-%E5%A6%82%E6%AD%A4%E7%BC%96%E7%A0%81/" class="title">202209-1 如此编码</a>
+                <a href="/2023/04/19/202209-1-%E5%A6%82%E6%AD%A4%E7%BC%96%E7%A0%81/" class="title">202209-1 如此编码</a>
               </p>
               <p class="item-date">
                 <time datetime="2023-04-19T11:40:46.000Z" itemprop="datePublished">2023-04-19</time>
@@ -246,10 +246,10 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+                <a class="category-link" href="/categories/CSP/">CSP</a>
               </p>
               <p class="item-title">
-                <a href="/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/" class="title">202212-3 JPEG解码</a>
+                <a href="/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/" class="title">202212-3 JPEG解码</a>
               </p>
               <p class="item-date">
                 <time datetime="2023-04-18T11:18:31.000Z" itemprop="datePublished">2023-04-18</time>
@@ -261,10 +261,10 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+                <a class="category-link" href="/categories/CSP/">CSP</a>
               </p>
               <p class="item-title">
-                <a href="/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" class="title">202212-2 训练计划</a>
+                <a href="/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" class="title">202212-2 训练计划</a>
               </p>
               <p class="item-date">
                 <time datetime="2023-04-17T08:13:13.000Z" itemprop="datePublished">2023-04-17</time>
@@ -276,10 +276,10 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+                <a class="category-link" href="/categories/CSP/">CSP</a>
               </p>
               <p class="item-title">
-                <a href="/dev-log/2023/04/03/202212-1-%E7%8E%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" class="title">202212-1 现值计算</a>
+                <a href="/2023/04/03/202212-1-%E7%8E%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" class="title">202212-1 现值计算</a>
               </p>
               <p class="item-date">
                 <time datetime="2023-04-03T11:39:44.000Z" itemprop="datePublished">2023-04-03</time>
@@ -291,10 +291,10 @@
             
             <div class="item-inner">
               <p class="item-category">
-                <a class="category-link" href="/dev-log/categories/CSP/">CSP</a>
+                <a class="category-link" href="/categories/CSP/">CSP</a>
               </p>
               <p class="item-title">
-                <a href="/dev-log/2023/03/31/202303-3-LDAP/" class="title">202303-3 LDAP</a>
+                <a href="/2023/03/31/202303-3-LDAP/" class="title">202303-3 LDAP</a>
               </p>
               <p class="item-date">
                 <time datetime="2023-03-31T15:11:25.000Z" itemprop="datePublished">2023-03-31</time>
@@ -330,26 +330,26 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" class="article-date">
+	<a href="/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" class="article-date">
 	  <time datetime="2023-04-17T08:13:13.000Z" itemprop="datePublished">2023-04-17</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/dev-log/categories/CSP/">CSP</a>
+    <a class="article-category-link" href="/categories/CSP/">CSP</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/dev-log/tags/C/" rel="tag">C++</a>
+	<a class="article-tag-link-link" href="/tags/C/" rel="tag">C++</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
@@ -412,7 +412,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://cilantropepper.github.io/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" title="202212-2 训练计划" target="_blank" rel="external">http://cilantropepper.github.io/dev-log/2023/04/17/202212-2-训练计划/</a>
+      <a href="https://dev.cypercream.site/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/" title="202212-2 训练计划" target="_blank" rel="external">https://dev.cypercream.site/2023/04/17/202212-2-训练计划/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -427,7 +427,7 @@
     <figure class="media">
       <div class="media-left">
         <a href="https://github.com/CilantroPepper" target="_blank" class="img-burn thumb-sm visible-lg">
-          <img src="/dev-log/images/avatar.jpg" class="img-rounded w-full" alt="">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
         </a>
       </div>
       <div class="media-body">
@@ -461,12 +461,12 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/dev-log/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/" title="202212-3 JPEG解码"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2023/04/18/202212-3-JPEG%E8%A7%A3%E7%A0%81/" title="202212-3 JPEG解码"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     
     <li class="next">
-      <a href="/dev-log/2023/04/03/202212-1-%E7%8E%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" title="202212-1 现值计算"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2023/04/03/202212-1-%E7%8E%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" title="202212-1 现值计算"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -493,7 +493,7 @@
     	
         <li><a href="https://github.com/CilantroPepper" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-        <li><a href="/dev-log/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
     </ul>
 
@@ -511,10 +511,10 @@
 window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
 
-<script src="/dev-log/js/plugin.min.js"></script>
+<script src="/js/plugin.min.js"></script>
 
 
-<script src="/dev-log/js/application.js"></script>
+<script src="/js/application.js"></script>
 
 
     <script>
@@ -527,14 +527,14 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
             TAGS: '标签',
             UNTITLED: '(未命名)',
         },
-        ROOT_URL: '/dev-log/',
-        CONTENT_URL: '/dev-log/content.json',
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
     };
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
 
-<script src="/dev-log/js/insight.js"></script>
+<script src="/js/insight.js"></script>
 
 
 
@@ -551,7 +551,7 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     <script defer>
     var disqus_config = function () {
         
-            this.page.url = 'http://cilantropepper.github.io/dev-log/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/';
+            this.page.url = 'https://dev.cypercream.site/2023/04/17/202212-2-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/';
         
         this.page.identifier = '202212-2-训练计划';
     };
