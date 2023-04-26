@@ -25,13 +25,13 @@
 <meta property="og:site_name" content="Cilantro&#39;s PR">
 <meta property="og:description" content="提交次数：1 得分：100  问题 http:&#x2F;&#x2F;118.190.20.162&#x2F;view.page?gpid&#x3D;T153  方法 边输入 a[i] 的值，边计算 c[i] 的值，遵循以下条件：  c[i] &#x3D; c[i - 1] * a[i - 1] （程序中 a 从下标 0 开始输入，题设的记法是从 1 开始，所以要 i - 1） C[0] &#x3D; 1  12345678c[0] &#x3D; 1;for (i">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://dev.cypercream.site/dev-log/image/2209-1-1.png">
+<meta property="og:image" content="https://dev.cypercream.site/image/2209-1-1.png">
 <meta property="article:published_time" content="2023-04-19T11:40:46.000Z">
-<meta property="article:modified_time" content="2023-04-19T11:57:26.342Z">
+<meta property="article:modified_time" content="2023-04-26T05:24:42.561Z">
 <meta property="article:author" content="Cilantro Pepper">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dev.cypercream.site/dev-log/image/2209-1-1.png">
+<meta name="twitter:image" content="https://dev.cypercream.site/image/2209-1-1.png">
   <!-- Canonical links -->
   <link rel="canonical" href="https://dev.cypercream.site/2023/04/19/202209-1-%E5%A6%82%E6%AD%A4%E7%BC%96%E7%A0%81/index.html">
   
@@ -370,7 +370,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">c[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= n; ++i)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &lt; n)</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    <span class="keyword">if</span> (i &gt; <span class="number">0</span>)</span><br><span class="line">        c[i] = c[i - <span class="number">1</span>] * a[i - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>由题目的提示：</p>
-<p><img src="/dev-log/image/2209-1-1.png" alt="2209-1-1"></p>
+<p><img src="/image/2209-1-1.png" alt="2209-1-1"></p>
 <p>可以发现，想要计算 <code>b[i]</code> 其实只需要从 <code>1</code> 开始遍历 <code>c</code> ，记 <code>m % c[i + 1]</code> 为 <code>cxb[i]</code>，满足：【程序中 <code>b</code> 从下标 0 开始】</p>
 <ul>
 <li>当 <code>i</code> &#x3D;&#x3D; <code>0</code> 时，<code>b[0] = cxb[0] / c[0]</code></li>
