@@ -25,5 +25,6 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/CilantroPepper/CSZC-ToC' }
     ]
   },
-  outDir: './docs'
+  outDir: './docs',
+  
 })
