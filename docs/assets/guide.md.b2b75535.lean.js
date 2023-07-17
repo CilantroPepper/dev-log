@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as o,U as n}from"./chunks/framework.01065553.js";const d=JSON.parse('{"title":"工程指南","description":"","frontmatter":{},"headers":[],"relativePath":"guide.md","filePath":"guide.md"}'),l={name:"guide.md"},p=n("",57),e=[p];function t(c,r,C,y,D,i){return a(),o("div",null,e)}const u=s(l,[["render",t]]);export{d as __pageData,u as default};

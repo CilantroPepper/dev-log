@@ -89,6 +89,8 @@ ToC基于Web构建，用户通过Browser(也就是浏览器)使用ToC。得益�
 
 > VueRouter官方文档：<https://router.vuejs.org/zh/>
 
+除此之外，ToC还引入了 Animate.css 作为基础的动画库，如果有任何设计需要，也可以直接使用 Animate.css 提供的动画效果。具体使用方法请见官方文档：<https://animate.style/>
+
 ## 环境及依赖
 
 ### SDK依赖
