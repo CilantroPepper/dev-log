@@ -2,48 +2,15 @@
 outline: deep
 ---
 
-# Runtime API Examples
+# 编码规范
 
-This page demonstrates usage of some of the runtime APIs provided by VitePress.
+本规范适用于CSZC-ToC项目的前端编码守则，请仔细阅读本规范，并且在实际开发中严格遵循。
 
-The main `useData()` API can be used to access site, theme, and page data for the current page. It works in both `.md` and `.vue` files:
+规范并非复杂化开发流程，而是将编码风格标准化、系统化，防止屎山代码过早出现，并且让每一个接手该项目的人都能轻易理解业务代码。
 
-```md
-<script setup>
-import { useData } from 'vitepress'
+本章将从HTML、SCSS、TypeScript、Vue等方面介绍ToC的前端编码规范。
 
-const { theme, page, frontmatter } = useData()
-</script>
+> 持续补充中 ...
 
-## Results
 
-### Theme Data
-<pre>{{ theme }}</pre>
 
-### Page Data
-<pre>{{ page }}</pre>
-
-### Page Frontmatter
-<pre>{{ frontmatter }}</pre>
-```
-
-<script setup>
-import { useData } from 'vitepress'
-
-const { site, theme, page, frontmatter } = useData()
-</script>
-
-## Results
-
-### Theme Data
-<pre>{{ theme }}</pre>
-
-### Page Data
-<pre>{{ page }}</pre>
-
-### Page Frontmatter
-<pre>{{ frontmatter }}</pre>
-
-## More
-
-Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).
