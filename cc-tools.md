@@ -19,9 +19,9 @@ switchTab(path: string, query?: Record<string, any>): void
 
 请注意传入的 `path` 会自动在前面拼接上Tab页的标识符，所以不需要手动传入。
 
-### 跳转到Stack页
+### 跳转到Stack页或白名单路由页
 
-传入希望跳转的Stack页路径，可选地传入查询内容，用于传递参数给目标Stack页。
+传入希望跳转的Stack页/白名单路由页路径，可选地传入查询内容，用于传递参数给目标页。
 
 ```ts
 // 导航到某非Tab页
@@ -29,6 +29,8 @@ navigateTo(path: string, query?: Record<string, any>): void
 ```
 
 请注意传入的 `path` 会自动在前面拼接上Stack页的标识符，所以不需要手动传入。
+
+如果传入路径可以在白名单路由中被检索到，则会直接跳转。
 
 ### 回到上一页
 
@@ -120,6 +122,41 @@ notify(message: string, type?: 'info' | 'error' | 'success' | 'warning', title?:
 当 `type` 有传入参数时，通知栏就会附带左侧的图标，对应了传入的 `type`
 :::
 
+### 加载状态
+
+加载状态会锁定页面操作，并且显示一个正在转圈的加载动画，直至手动关闭加载。
+
+```ts
+loading(text?: string, background?: string): { close(): void }
+```
+
+- 传入参数（所有参数都是可选的）
+
+  |参数|默认|备注|参数类型|示例
+  |:--:|:--:|:--:|:--:|:--:|
+  |text|/|加载状态提示文本|string|/|
+  |background|transparent|加载动画全屏背景颜色|string|'#ffffff'|
+
+- 返回值：一个包含 `close()` 方法的对象，用于关闭加载
+
+- 示例
+  
+  ```ts
+  const loader = cc.loading()
+  // ...
+  [执行Promise]
+    .then(() => {
+      // ...
+    })
+    .finally(() => {
+      loader.close()
+    })
+  ```
+
+::: tip
+:bulb:最佳实践：结合 `Promise` 使用时（通常是API请求）在 `finally` 块中调用加载框的关闭方法。
+:::
+
 ## 文件选择
 
 打开系统文件选择器，返回一个 `promise`，若用户已选择文件，则会在成功回调中传入。
@@ -158,3 +195,26 @@ type FileList = File[]
     })
     .catch(e => console.log(e))
   ```
+
+## 预览文件
+
+用于接收一个 `Response` 响应对象，然后将其传输的内容通过文件形式预览。
+
+```ts
+previewFile(response: Response): Promise<void>
+```
+
+- 传入**未被读**的 `Response` 对象（直接将指定 `type` 为 `blob` 的Request响应的内容传入就可以）
+- 返回：`Promise`，标识成功或失败。实际业务中很少使用。
+
+## Sm2加密
+
+传入一个字符串，返回Sm2加密后的结果。
+
+```ts
+sm2Encrypt(value: string): string
+```
+
+::: tip
+登录时要将用户填写的密码使用该方法加密后进行传输。
+:::

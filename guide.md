@@ -95,8 +95,8 @@ ToC基于Web构建，用户通过Browser(也就是浏览器)使用ToC。得益�
 
 ### SDK依赖
 
-- Node.js v20.x+
-- npm v8.7+
+- Node.js v18.x+
+- npm v9.0+
 
 ### npm依赖下载
 
