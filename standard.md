@@ -64,7 +64,7 @@ import Tag from './components/Tag.vue'
     - 文件夹：采用中划线 `-` 连接命名
 
     下面给出几个最佳实践的例子：
-        
+
     - 目录 `src/layouts/not-found`
     - TS文件 `src/utils/errorHandler.ts`
     - Vue局部组件 `loginModal.vue`
@@ -73,5 +73,115 @@ import Tag from './components/Tag.vue'
 
 > 持续补充中 ...
 
+## HTML
+
+1. <Tag :level="1">强制</Tag>：任何标签必须闭合（必须有 `/`）
+
+   - 比如：`<div></div>`，如果是原生标签 `<img />` 这一类的，必须加上 `/`，即不可以写成 `<img>`
+  
+2. <Tag :level="2">建议</Tag>：去除不必要的标签后缀。
+
+    - Vue组件中，如果是带 `slot` 的组件，则写成：
+
+     ```vue
+     <el-button>插槽内容</el-button>
+     ```
+
+    - 如果是不带 `slot` 的组件，则应该舍弃不必要的标签后缀：
+
+    ```vue{5}
+    <!-- 不建议的写法 -->
+    <el-input></el-input>
+
+    <!-- 建议的写法 -->
+    <el-input />
+    ```
+
+3. <Tag :level="2">建议</Tag>：标签**全部小写**，使用 `-` 连接两个单词，如：`<el-button></el-button>`
+
+## SCSS/CSS
+
+1. <Tag :level="1">强制</Tag>：CSS类名全部小写，使用 `-` 连接两个单词
+
+   比如：`.modal-wrapper`
+
+2. <Tag :level="1">强制</Tag>：CSS变量名全部使用小写，SCSS变量名使用**小驼峰命名**
+   
+   上述规则适用于局部定义的变量，而ToC预构建定义的全局CSS/SCSS变量全部都是大写。
+
+3. <Tag :level="1">强制</Tag>：CSS类命名必须是指明用途的有意义的英文单词组合，不可以使用拼音！
+
+   - 正确示例：`.menu-wrapper`
+   - 错误示例：`.menuWrapper`，`.MenuWrapper`，`.caidan`
+
+4. <Tag :level="1">强制</Tag>：禁止使用不常见的英文缩写。
+
+   - 当英文单词过长导致类名过长时，可以适当使用英文缩写。但选用的缩写必须是主流且常见的。
+   - 如果一个英文单词的缩写无法立刻推断出其本意，那么这个缩写就不应该被使用。
+   - 宁可保留一个很长的类名，也不可以使用莫名其妙的英文缩写！
+
+   ::: tip :bulb:最佳实践
+   常见的缩写：button - btn；description - desc
+   :::
+
+5. <Tag :level="1">强制</Tag>：全量使用flex布局
+
+   当你显式地指定一个元素的布局方式时，必须使用 `flex` 布局。你可以使用 `flex-direction` 改变其 `flex` 的方向。
+
+   ::: tip :bulb:最佳实践
+   将一个元素中的子元素水平+垂直居中：父元素采用 `flex` 布局，同时指定 `align-items: center` 和 `justify-content: center`
+   :::
+
+6. <Tag :level="2">建议</Tag>：不指定不对称的 `margin`
+
+   - 如果想要指定元素内的子元素之间的间隔，最好的方式是父级采用 `flex` 布局后，指定 `gap` 来定义。
+   - `margin` 只在处理特殊元素或布局时有使用价值。
+
+7. <Tag :level="2">建议</Tag>：指定 `padding` 的同时指定 `box-sizing`
+
+   防止因为 `box-sizing` 为 `content-box` 时将元素撑大而带来的非预期效果。在通常情况下，`border-box` 是 `box-sizing` 的最佳选择。
+
+> 持续补充中 ...
+
+## TypeScript
+
+1. <Tag :level="1">强制</Tag>：局部变量、对象、方法采用**小驼峰**命名
+
+   - 例如：`passportId`; `validCode`; `userInfo`; `getUserInfo()`
+
+2. <Tag :level="1">强制</Tag>：全局变量、全局对象、枚举类型使用**全部大写**命名
+
+   - 例如：`config.ts` 中定义的 `app` 配置。
+
+3. <Tag :level="1">强制</Tag>：类（class）、接口（interface）使用**大驼峰**命名。
+
+   - 例如：`interface UserInfo`; `class Response`
+
+4. <Tag :level="1">强制</Tag>：任何命名都要使用指明用途的有意义的英文单词组合，**禁止使用拼音**！！
+   
+   - 正确示例：`userInfo`; `records`
+   - 错误示例：`psb`（职称评审系统后台对“评审表”的定义），``
+
+   ::: info
+   你可能会好奇，CC Tools的命名 `cc` 并不是一个符合规范的名字。这是因为，`cc` 作为一个**全局工具类**，里面的工具方法使用率极高，从减少记忆量和代码书写量的角度出发可以接受CC Tools 的命名。
+
+   这样的约定是有约束代价的，就是所有人都必须知道 `cc` 是工具类，这需要依靠全局提示和约束定义。所以除了这个个例外，其他命名禁止采用类似的“偷懒”的方法。
+
+   但请注意，CC Tools内部方法的命名也严格遵循命名规范。 
+   :::
+
+5. <Tag :level="1">强制</Tag>：hook的命名必须是 `useXXX` 的小驼峰。
+   
+   - 例如：`useSystem`; `useApi`
+
+6. <Tag :level="2">建议</Tag>：不允许使用 `any` 作为变量类型定义
+   
+   但是你可以使用类似下面的语句：
+   ```ts
+   const userInfo: UserInfo = Object.assign(userInfo, storage.get<UserInfo>(config.storage.USER_INFO)) as any
+   ```
 
 
+7. <Tag :level="2">建议</Tag>：任何作用域嵌套超过**两层**的方法、变量、对象等都必须为其增加**类型定义**。
+
+8. <Tag :level="3">推荐</Tag>：推荐使用如 `Record`; `Partial`; `Omit`; `Pick`; `Readonly` 这一类TypeScript自带的类型。
