@@ -50,6 +50,27 @@ import Tag from './components/Tag.vue'
        |-- modal.vue
     ```
 
+4. <Tag :level="1">强制</Tag> 局部样式文件
+
+    局部样式文件（CSS/SCSS）必须放在其作用域根目录的 `assets` 文件夹中，例如影响登录界面的 `login.scss` 必须放在 `src/views/login/assets` 目录下。
+
+5. <Tag :level="1">强制</Tag> 文件命名
+
+    禁止拼音、拼音缩写命名！请全部使用能表达文件用途的英文命名。针对不同的文件类型，有不同的规范区别：
+
+    - Vue文件：普通组件采用**小驼峰**的方式命名，全局组件采用**大驼峰**的方式命名
+    - TypeScript文件：采用**小驼峰**的方式命名
+    - SCSS、CSS文件：采用**小驼峰**的方式命名
+    - 文件夹：采用中划线 `-` 连接命名
+
+    下面给出几个最佳实践的例子：
+        
+    - 目录 `src/layouts/not-found`
+    - TS文件 `src/utils/errorHandler.ts`
+    - Vue局部组件 `loginModal.vue`
+    - Vue全局组件 `Loading.vue`
+    - SCSS文件 `loginModal.scss`
+
 > 持续补充中 ...
 
 
