@@ -106,7 +106,7 @@ import Tag from './components/Tag.vue'
    比如：`.modal-wrapper`
 
 2. <Tag :level="1">强制</Tag>：CSS变量名全部使用小写，SCSS变量名使用**小驼峰命名**
-   
+
    上述规则适用于局部定义的变量，而ToC预构建定义的全局CSS/SCSS变量全部都是大写。
 
 3. <Tag :level="1">强制</Tag>：CSS类命名必须是指明用途的有意义的英文单词组合，不可以使用拼音！
@@ -158,7 +158,7 @@ import Tag from './components/Tag.vue'
    - 例如：`interface UserInfo`; `class Response`
 
 4. <Tag :level="1">强制</Tag>：任何命名都要使用指明用途的有意义的英文单词组合，**禁止使用拼音**！！
-   
+
    - 正确示例：`userInfo`; `records`
    - 错误示例：`psb`（职称评审系统后台对“评审表”的定义），``
 
@@ -167,21 +167,32 @@ import Tag from './components/Tag.vue'
 
    这样的约定是有约束代价的，就是所有人都必须知道 `cc` 是工具类，这需要依靠全局提示和约束定义。所以除了这个个例外，其他命名禁止采用类似的“偷懒”的方法。
 
-   但请注意，CC Tools内部方法的命名也严格遵循命名规范。 
+   但请注意，CC Tools内部方法的命名也严格遵循命名规范。
    :::
 
 5. <Tag :level="1">强制</Tag>：hook的命名必须是 `useXXX` 的小驼峰。
-   
+
    - 例如：`useSystem`; `useApi`
 
-6. <Tag :level="2">建议</Tag>：不允许使用 `any` 作为变量类型定义
-   
+6. <Tag :level="1">强制</Tag>：不允许使用 `var` 来定义变量，请用 `let` 替代。
+
+7. <Tag :level="1">强制</Tag>：能用 `const` 替代 `let` 的对象绝对使用 `const`
+
+8. <Tag :level="2">建议</Tag>；使用 `forEach` | `map` | `reduce` 等增强型循环替代传统循环
+
+9. <Tag :level="2">建议</Tag>：使用 `for const item of xx` | `for const i in xx` 替代传统循环
+
+10. <Tag :level="2">建议</Tag>：不允许使用 `any` 作为变量类型定义
+
    但是你可以使用类似下面的语句：
+
    ```ts
    const userInfo: UserInfo = Object.assign(userInfo, storage.get<UserInfo>(config.storage.USER_INFO)) as any
    ```
 
+11. <Tag :level="2">建议</Tag>：任何作用域嵌套超过**两层**的方法、变量、对象等都必须为其增加**类型定义**。
 
-7. <Tag :level="2">建议</Tag>：任何作用域嵌套超过**两层**的方法、变量、对象等都必须为其增加**类型定义**。
+12. <Tag :level="2">建议</Tag>：`Promise` 写成 `async/await` 风格。
 
-8. <Tag :level="3">推荐</Tag>：推荐使用如 `Record`; `Partial`; `Omit`; `Pick`; `Readonly` 这一类TypeScript自带的类型。
+13. <Tag :level="3">推荐</Tag>：推荐使用如 `Record`; `Partial`; `Omit`; `Pick`; `Readonly` 这一类TypeScript自带的类型。
+14. <Tag :level="3">推荐</Tag>：使用 `Object` 的 `assign` | `entries` | 'keys' 等方法快速遍历对象内属性。
