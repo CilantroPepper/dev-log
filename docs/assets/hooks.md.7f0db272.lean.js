@@ -1,0 +1,1 @@
+import{_ as s,o as a,c as o,U as n}from"./chunks/framework.c270b6c9.js";const D=JSON.parse('{"title":"useApi Hook 文档","description":"","frontmatter":{},"headers":[],"relativePath":"hooks.md","filePath":"hooks.md"}'),l={name:"hooks.md"},e=n("",35),t=[e];function p(c,r,i,y,C,F){return a(),o("div",null,t)}const A=s(l,[["render",p]]);export{D as __pageData,A as default};

@@ -17,6 +17,8 @@ export default defineConfig({
         items: [
           { text: '工程指南', link: '/guide' },
           { text: '编码规范', link: '/standard' },
+          { text: 'CC Tools文档', link: '/cc-tools' },
+          { text: 'Hooks文档', link: '/hooks' }
         ]
       }
     ],
