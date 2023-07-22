@@ -99,6 +99,15 @@ import Tag from './components/Tag.vue'
 
 3. <Tag :level="2">建议</Tag>：标签**全部小写**，使用 `-` 连接两个单词，如：`<el-button></el-button>`
 
+4. <Tag :level="2">建议</Tag>：使用 `<img />` 标签来实现背景图片，而不是在 `CSS` 中使用 `background-image` 属性
+
+   - 因为 `<img />` 标签在语义上更加可读且易于维护和自定义扩展，你只需要将父节点设置成 `position: relative`，然后将子节点（`<img />`）设置为 `position: absolute`，然后指定其宽度和高度都为 `100%` 就可以实现背景图片的效果
+   - 你可以同时设置 `object-fit` 和 `object-position` 来对图片做一些剪裁/居中处理。
+
+   ::: tip
+   子绝父相！！
+   :::
+
 ## SCSS/CSS
 
 1. <Tag :level="1">强制</Tag>：CSS类名全部小写，使用 `-` 连接两个单词
