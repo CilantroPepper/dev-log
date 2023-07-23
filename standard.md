@@ -141,12 +141,16 @@ import Tag from './components/Tag.vue'
    将一个元素中的子元素水平+垂直居中：父元素采用 `flex` 布局，同时指定 `align-items: center` 和 `justify-content: center`
    :::
 
-6. <Tag :level="2">建议</Tag>：不指定不对称的 `margin`
+6. <Tag :level="1">强制</Tag>：单位使用 `rem`，不使用 `px` | `em` 。
+   
+   ToC已经在根节点指定了：`1rem == 10px`，所以 `16px` 与 `1.6rem` 等价，也就是 `rem` 是 `px * 0.1`。
+
+7. <Tag :level="2">建议</Tag>：不指定不对称的 `margin`
 
    - 如果想要指定元素内的子元素之间的间隔，最好的方式是父级采用 `flex` 布局后，指定 `gap` 来定义。
    - `margin` 只在处理特殊元素或布局时有使用价值。
 
-7. <Tag :level="2">建议</Tag>：指定 `padding` 的同时指定 `box-sizing`
+8. <Tag :level="2">建议</Tag>：指定 `padding` 的同时指定 `box-sizing`
 
    防止因为 `box-sizing` 为 `content-box` 时将元素撑大而带来的非预期效果。在通常情况下，`border-box` 是 `box-sizing` 的最佳选择。
 
@@ -204,4 +208,4 @@ import Tag from './components/Tag.vue'
 12. <Tag :level="2">建议</Tag>：`Promise` 写成 `async/await` 风格。
 
 13. <Tag :level="3">推荐</Tag>：推荐使用如 `Record`; `Partial`; `Omit`; `Pick`; `Readonly` 这一类TypeScript自带的类型。
-14. <Tag :level="3">推荐</Tag>：使用 `Object` 的 `assign` | `entries` | 'keys' 等方法快速遍历对象内属性。
+14. <Tag :level="3">推荐</Tag>：使用 `Object` 的 `assign` | `entries` | `keys` 等方法快速遍历对象内属性。

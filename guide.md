@@ -269,10 +269,148 @@ ToC也针对本地缓存封装了一套API，ToC遵循**任何缓存都必须经
 
 - `storage` 包含了本地缓存的键名配置，也就是说在使用本地缓存时，你应该将键名都定义在这，而别处都应该从这里引用。
 
-## 深入响应式布局
-
-> 持续补充中
-
 ## 深入路由管理
 
-> 持续补充中
+ToC的路由管理上很大程度上依赖于Vite提供的模块懒加载能力，其中 `import.meta.glob` 的用法可以参见[Vite官方文档](https://vitejs.cn/vite3-cn/guide/features.html#glob-import)对此的描述。
+
+ToC一共有三种路由：
+
+1. 特殊的白名单路由：可以显式地指定匹配路径、匹配组件、meta等等
+2. Tab路由：由 `src/tab.ts` 配置决定的路由，其命中路径会加上 `/t` 的前缀，匹配的组件在 `tab.ts` 中显式指定，同时还应指定该Tab栏的描述文字、装饰图标。
+3. Stack路由：只要是在 `src/view/` 中任意非顶级目录下的 `index.vue`，都会被当作是一个Stack页面被路由到，并且前缀会自动加上 `/s`，比如：
+
+```bash
+/s/guide/ => 路由到 src/views/guide/index.vue
+/s/record/detail/ => 路由到 src/views/record/detail/index.vue
+```
+
+也就是说，Stack路由的物理组件文件结构决定了其路由地址，所以你应该将 `index.vue` 作为且仅作为某一级页面的入口。
+
+值得注意的是，Tab页在物理组件文件结构上也存在于 `src/views` 中，但是其在路由匹配中会被排除在Stack路由的匹配环节外。所以为了区分，现在Tab页都存在于 `src/views/tab` 的子目录下。但是，即使你改变这种约定，在 `tab.ts` 中配置的组件都不会被Stack路由找到！
+
+::: tip
+你可以这么想象Tab页面和Stack页面：
+
+- Tab页面相当于一打开微信就能看到的页面及其底栏。
+
+- Stack页面相当于聊天界面、朋友圈详情等没有底栏但是顶部有返回键的界面。
+
+如果你熟悉微信小程序，那么Tab页和Stack页和他的概念几乎一致。
+:::
+
+### 一级路由
+
+当页面开始加载时，首先会进入 `App.vue` 中，而 `App.vue` 会委托VueRouter来加载用户访问的目标页面，有三种情况：
+
+1. 命中特殊白名单路由：返回白名单路由中显式指定的views，如 `/login`
+2. 命中前缀是 `/t`：返回 `layouts/tab/index.vue`
+3. 命中前缀是 `/s`：返回 `layouts/stack/index.vue`
+4. 啥也不命中：返回 `layouts/not-found/index.vue` （缺省页）作为404页面。
+
+::: warning 注意
+在这个一级路由中，要么返回特殊路由的组件直接作为页面（不受响应式layouts的控制），要么返回Stack的响应式layouts或Tab的响应式layouts（相当于其渲染模板）
+:::
+
+假设路由命中了Stack路由或Tab路由，则会将路由任务交给**二级路由**，也就是你能在 `layouts/tab/index.vue` 中或 `layouts/stack/index.vue` 中看到的又一层 `router-view`
+
+### 二级路由
+
+委托Stack路由或Tab路由进行查找，过程和一级路由差不多，但是所有的查找结果，都会被渲染在 `layouts` 相应目录下指定的模板中，比如Tab页面会被加上底部TabBar，Stack页面会被加上顶部标题栏和返回键。这一操作保证了所有页面的顶级交互（切换和返回）统一。
+
+Stack模板的顶栏：
+![Alt text](./assets/stack.png)
+
+Tab模板的WAP端TabBar：
+![Alt text](./assets/tabbar.png)
+
+Tab模板的PC端Menu：
+![Alt text](./assets/menu.png)
+
+::: tip
+特殊路由指定的页面不会被 `layouts` 的模板包裹，所以不应该滥用特殊路由，目前来看，只有类似 `/login` 这样的非正式业务内容的模块才应该被放在特殊路由中。
+:::
+
+## 深入响应式布局
+
+### 核心
+
+ToC的样式布局核心是**使用flex布局**，如果你对flex布局不是那么熟悉，请先熟悉官方文档中对flex布局的描述：[MDN 文档 | Flex 布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex)
+
+::: danger
+请注意，任何 `float` 布局是不被允许的！！
+:::
+
+ToC的双端响应式布局是借助**flex布局**和CSS中的**媒体查询**能力，以及在个别情况下借助TypeScript对屏幕宽度的变化监控来实现的。
+
+### 不同的布局入口
+
+在上面[深入路由管理](#深入路由管理)中已经介绍了Stack和Tab的两种布局模板，而Tab的布局模板中又有两种布局入口，因为在宽屏设备中，采用侧栏Menu会优于底部TabBar，而在窄屏设备中则又反过来。下面介绍Tab布局模板中的两种布局入口：
+
+当用户进入页面时，TypeScript会实时更新用户的屏幕宽高信息，并存储在全局状态库中，你可以使用以下方式获取到当前屏幕的宽高状态：
+
+```ts
+const system = useSystem()
+const screen = system.screen
+// @param screen { width: number, height: number }
+```
+
+如果是要判断是否为WAP端，可以直接访问该全局状态库的getter方法，如果屏幕宽度 `<800px` 则会返回 `true`：
+
+```ts
+const isWap = system.isWap
+```
+
+- 如果是WAP端，则会加载WAP的Tab模板（`src/layouts/tab/wap.vue`），也就是将路由匹配的组件渲染进WAP模板中。
+- 如果是PC端，则会加载PC的Tab模板（`src/layouts/tab/pc.vue`），也就是将路由匹配的组件渲染进PC模板中。
+
+而模板文件只负责控制TabBar/Menu及其激活状态，也就是说，内部业务细节交给各自的views处理，而views也无需关心Menu或者TabBar是否正确显示了激活状态。
+
+### views内的响应式
+
+在views内部，和layouts一样采用不同的Vue模板然后通过TS控制似乎不是一种很高效和友好的方式，ToC更推荐在views的内部使用CSS的**媒体查询**功能来完成响应式布局。
+
+比如，在WAP端，卡片适合采用纵向flex，而PC端卡片适合采用自动换行的横向flex，那么就可以在CSS/SCSS中利用变量这么写：
+
+```scss
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 1rem;
+  gap: .5rem;
+
+  @media screen and (min-width: $PC_MIN_WIDTH) {
+    // PC端
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  @media screen and (max-width: $WAP_MAX_WIDTH) {
+    // WAP端
+    flex-direction: column;
+  }
+}
+```
+
+如果是CSS变量，那么上面的 `$PC_MIN_WIDTH` 和 `$WAP_MAX_WIDTH` 应该相应被替换成：
+
+```css
+@media screen and (min-width: var(--PC-MIN-WIDTH)) {
+  /* ... */
+}
+
+@media screen and (max-width: var(--WAP-MAX-WIDTH)) {
+  /* ... */
+}
+```
+
+::: tip :bulb:最佳实践
+如果一个views中有大量的布局需要应用到响应式，最好的方法是，在该views的根目录下的 `assets` 文件夹中创建 `index.wap.scss` 和 `index.pc.scss` 两个样式文件，然后分别书写两个端的样式，最后在组件中引入：
+
+```vue
+<style scoped lang="scss">
+@import "./assets/index.wap.scss";
+@import "./assets/index.pc.scss";
+</style>
+```
+:::
