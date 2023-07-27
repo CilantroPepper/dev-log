@@ -4,11 +4,11 @@ outline: deep
 
 # 编码规范
 
-本规范适用于CSZC-ToC项目的前端编码守则，请仔细阅读本规范，并且在实际开发中严格遵循。
+本规范适用于Cream Client Responsive App的前端编码守则，请仔细阅读本规范，并且在实际开发中严格遵循。
 
 规范并非复杂化开发流程，而是将编码风格标准化、系统化，防止屎山代码过早出现，并且让每一个接手该项目的人都能轻易理解业务代码。
 
-本章将从文件组织结构、HTML、SCSS、TypeScript、Vue、Git协作等方面介绍ToC的前端编码规范。
+本章将从文件组织结构、HTML、SCSS、TypeScript、Vue、Git协作等方面介绍CC的前端编码规范。
 
 在正式开始之前，先对编码规范进行以下阐述：规范分为：
 
@@ -116,7 +116,7 @@ import Tag from './components/Tag.vue'
 
 2. <Tag :level="1">强制</Tag>：CSS变量名全部使用小写，SCSS变量名使用**小驼峰命名**
 
-   上述规则适用于局部定义的变量，而ToC预构建定义的全局CSS/SCSS变量全部都是大写。
+   上述规则适用于局部定义的变量，而CC预构建定义的全局CSS/SCSS变量全部都是大写。
 
 3. <Tag :level="1">强制</Tag>：CSS类命名必须是指明用途的有意义的英文单词组合，不可以使用拼音！
 
@@ -133,7 +133,7 @@ import Tag from './components/Tag.vue'
    常见的缩写：button - btn；description - desc
    :::
 
-5. <Tag :level="1">强制</Tag>：全量使用flex布局
+5. <Tag :level="1">强制</Tag>：全量使用flex布局，不使用float布局。
 
    当你显式地指定一个元素的布局方式时，必须使用 `flex` 布局。你可以使用 `flex-direction` 改变其 `flex` 的方向。
 
@@ -141,20 +141,22 @@ import Tag from './components/Tag.vue'
    将一个元素中的子元素水平+垂直居中：父元素采用 `flex` 布局，同时指定 `align-items: center` 和 `justify-content: center`
    :::
 
-6. <Tag :level="1">强制</Tag>：单位使用 `rem`，不使用 `px` | `em` 。
-   
-   ToC已经在根节点指定了：`1rem == 10px`，所以 `16px` 与 `1.6rem` 等价，也就是 `rem` 是 `px * 0.1`。
+6. <Tag :level="1">强制</Tag>：不使用ID选择器。
 
-7. <Tag :level="2">建议</Tag>：不指定不对称的 `margin`
+   使用类名选择器、自定义属性选择器、伪类选择器等等。
+
+7. <Tag :level="1">强制</Tag>：单位使用 `rem`，不使用 `px` | `em` 。
+
+   CC已经在根节点指定了：`1rem == 10px`，所以 `16px` 与 `1.6rem` 等价，也就是 `rem` 是 `px * 0.1`。
+
+8. <Tag :level="2">建议</Tag>：不指定不对称的 `margin`
 
    - 如果想要指定元素内的子元素之间的间隔，最好的方式是父级采用 `flex` 布局后，指定 `gap` 来定义。
    - `margin` 只在处理特殊元素或布局时有使用价值。
 
-8. <Tag :level="2">建议</Tag>：指定 `padding` 的同时指定 `box-sizing`
+9. <Tag :level="2">建议</Tag>：指定 `padding` 的同时指定 `box-sizing`
 
    防止因为 `box-sizing` 为 `content-box` 时将元素撑大而带来的非预期效果。在通常情况下，`border-box` 是 `box-sizing` 的最佳选择。
-
-> 持续补充中 ...
 
 ## TypeScript
 
@@ -208,4 +210,5 @@ import Tag from './components/Tag.vue'
 12. <Tag :level="2">建议</Tag>：`Promise` 写成 `async/await` 风格。
 
 13. <Tag :level="3">推荐</Tag>：推荐使用如 `Record`; `Partial`; `Omit`; `Pick`; `Readonly` 这一类TypeScript自带的类型。
+
 14. <Tag :level="3">推荐</Tag>：使用 `Object` 的 `assign` | `entries` | `keys` 等方法快速遍历对象内属性。

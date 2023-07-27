@@ -1,12 +1,12 @@
 # 工程指南
 
-本指南旨在介绍CSZC-ToC项目（以下简称ToC）的项目结构和开发指引。
+本指南旨在介绍Cream Client Responsive App（以下简称CC）的项目结构和开发指引。
 
-> 本文档适合初次上手ToC项目的新人阅读。
+> 本文档适合初次上手CC响应式应用的新人阅读。
 
 ## 项目概述
 
-ToC为计算机学院综测系统中的C端子系统，主要针对的使用群体为**学生**，在整个综测评审过程中，主要用于学生查看信息、填报材料的环节。考虑到B端系统对移动端的适配性较低，ToC更加注重于移动端和桌面端的双端全量支持，也即双端的**响应式布局**。
+CC为计算机学院综测系统中的C端子系统，主要针对的使用群体为**学生**，在整个综测评审过程中，主要用于学生查看信息、填报材料的环节。考虑到B端系统对移动端的适配性较低，CC更加注重于移动端和桌面端的双端全量支持，也即双端的**响应式布局**。
 
 在此介绍两个重要概念：**WAP端和PC端**：
 
@@ -19,13 +19,13 @@ PC端：宽屏设备，也即桌面端，当前配置下默认为屏幕宽度大
 换言之，WAP端和PC端应该实现完全相同的业务，但在表现形式上应针对宽屏和窄屏设备做出不同的兼容。例如：
 宽屏设备在横向空间可以容纳更多的分栏，故可以对卡片等组件使用**横向flex**布局，而窄屏设备横向空间不足，在容纳相同的卡片时应该采用**纵向flex**布局。
 
-在[深入响应式布局](#深入响应式布局)中，还会详细介绍响应式布局实现的解决方案，以及ToC现有基本框架的实现实例。
+在[深入响应式布局](#深入响应式布局)中，还会详细介绍响应式布局实现的解决方案，以及CC现有基本框架的实现实例。
 
 ::: warning
 特别地，在对WAP端实现完全兼容的情况下，也必须格外注意PC端的使用体验，因为综测系统的特殊性，在很大可能下，用户是通过PC设备访问的。
 :::
 
-ToC基于Web构建，用户通过Browser(也就是浏览器)使用ToC。得益于Web技术的飞速发展，现如今已经有非常多开箱即用的技术栈可以帮助我们进行敏捷开发，而基于各方面考虑，ToC的技术选型为：**Vite + Vue3 + TypeScript + SCSS + ElementPlus + Pinia + VueRouter**，下面将会详细介绍各个技术栈如何帮助我们更便捷地构建一个优秀的产品。
+CC基于Web构建，用户通过Browser(也就是浏览器)使用CC。得益于Web技术的飞速发展，现如今已经有非常多开箱即用的技术栈可以帮助我们进行敏捷开发，而基于各方面考虑，CC的技术选型为：**Vite + Vue3 + TypeScript + SCSS + ElementPlus + Pinia + VueRouter**，下面将会详细介绍各个技术栈如何帮助我们更便捷地构建一个优秀的产品。
 
 1. **Vite**
 
@@ -40,11 +40,11 @@ ToC基于Web构建，用户通过Browser(也就是浏览器)使用ToC。得益�
     > Vue3官方文档：<https://cn.vuejs.org/>
 
     ::: info
-    如果你是第一次接触SPA(单页应用)的概念，请不要被迷惑了，单页是指打包构建完只会有一个HTML文件，而所有页面切换、路由等等的操作都被JavaScript接手了，并不是ToC只有一个页面的意思！ToC借助Vite、Vue和VueRouter的能力实现了非常独特的路由管理机制，后面也会详细介绍ToC独具一格的路由设计。
+    如果你是第一次接触SPA(单页应用)的概念，请不要被迷惑了，单页是指打包构建完只会有一个HTML文件，而所有页面切换、路由等等的操作都被JavaScript接手了，并不是CC只有一个页面的意思！CC借助Vite、Vue和VueRouter的能力实现了非常独特的路由管理机制，后面也会详细介绍CC独具一格的路由设计。
     :::
 
     ::: warning
-    你应该着重关注Vue3的**组合式API**，这在ToC中大量使用，甚至于我们不会使用任何非组合式API，也就是选项式API不是ToC中的最佳实践！
+    你应该着重关注Vue3的**组合式API**，这在CC中大量使用，甚至于我们不会使用任何非组合式API，也就是选项式API不是CC中的最佳实践！
 
     特别地，你需要学会如何使用**setup语法糖**，你将会在编码规范中看到setup语法糖是编写Vue组件的第一范式！！
 
@@ -53,7 +53,7 @@ ToC基于Web构建，用户通过Browser(也就是浏览器)使用ToC。得益�
 
 3. **TypeScript**
 
-    ToC全量使用TypeScript！！TS的类型特性将帮助ToC搭建更加健壮且更易维护的模块，任何人为编写的JS都是不被允许的。包括Vue组件在内，ToC所有的模块都基于TypeScript编写。
+    CC全量使用TypeScript！！TS的类型特性将帮助CC搭建更加健壮且更易维护的模块，任何人为编写的JS都是不被允许的。包括Vue组件在内，CC所有的模块都基于TypeScript编写。
 
     > TypeScript参考文档：<https://www.tslang.cn/docs/home.html>
 
@@ -62,12 +62,12 @@ ToC基于Web构建，用户通过Browser(也就是浏览器)使用ToC。得益�
     使用这种CSS扩展语言可以帮助我们减少CSS代码量，你不需要对SCSS掌握的很深入，只需要学会利用其嵌套CSS的特性、SCSS变量的特性即可。剩下的，就是深入原生CSS，着重掌握**flex**布局（纵向或横向）。
 
     ::: tip :bulb:最佳实践
-    在ToC中，所有自定义样式的第一范式就是：**使用flex布局**。
+    在CC中，所有自定义样式的第一范式就是：**使用flex布局**。
     :::
 
 5. **ElementPlus**
 
-    ElementPlus 是基于Vue3构建的优秀的组件库，开箱即用地提供了非常多实用组件，ToC已经对ElementPlus进行了一定的客制化且进行了按需引入优化，开发者只需要按照ElementPlus文档自由使用其组件即可。你也可以在运行项目后进入 `http://localhost:81/s/guide/` 查看组件示例，该部分的源码在 `/src/views/guide/index.vue` 中。
+    ElementPlus 是基于Vue3构建的优秀的组件库，开箱即用地提供了非常多实用组件，CC已经对ElementPlus进行了一定的客制化且进行了按需引入优化，开发者只需要按照ElementPlus文档自由使用其组件即可。你也可以在运行项目后进入 `http://localhost:81/s/guide/` 查看组件示例，该部分的源码在 `/src/views/guide/index.vue` 中。
 
     > ElementPlus官方文档：<https://element-plus.org/zh-CN/component/button.html>
 
@@ -85,11 +85,11 @@ ToC基于Web构建，用户通过Browser(也就是浏览器)使用ToC。得益�
 
 7. **VueRouter**
 
-  同样是Vue3官方推荐的路由管理库，但是作为关注业务核心的开发人员，你无需过多在意ToC在架构上对VueRouter进行的配置细节，你只需要知道ToC总体上拥有两大路由：TabBar路由和Stack路由，在后面[深入路由管理](#深入路由管理)中，你将会看到对这两个名词最具体的介绍。
+    同样是Vue3官方推荐的路由管理库，但是作为关注业务核心的开发人员，你无需过多在意CC在架构上对VueRouter进行的配置细节，你只需要知道CC总体上拥有两大路由：TabBar路由和Stack路由，在后面[深入路由管理](#深入路由管理)中，你将会看到对这两个名词最具体的介绍。
 
-> VueRouter官方文档：<https://router.vuejs.org/zh/>
+    > VueRouter官方文档：<https://router.vuejs.org/zh/>
 
-除此之外，ToC还引入了 Animate.css 作为基础的动画库，如果有任何设计需要，也可以直接使用 Animate.css 提供的动画效果。具体使用方法请见官方文档：<https://animate.style/>
+除此之外，CC还引入了 Animate.css 作为基础的动画库，如果有任何设计需要，也可以直接使用 Animate.css 提供的动画效果。具体使用方法请见官方文档：<https://animate.style/>
 
 ## 环境及依赖
 
@@ -174,19 +174,20 @@ c-app
 │  ├─ utils         - 外部工具目录
 │  │  ├─ assets.ts  - 静态资源管理，所有静态资源都必须通过它来管理访问
 │  │  ├─ hooks      - hooks目录
+│  │  ├─ directive  - 自定义指令目录
 │  │  ├─ init.ts    - 初始化项目的脚本
 │  │  ├─ request.ts - 基于Fetch API封装的请求文件，所有API都会基于这个封装文件来进行
 │  │  ├─ router.ts  - 路由配置文件
 │  │  ├─ storage.ts - 本地缓存管理
 │  │  ├─ stores     - 全局状态库目录
 │  │  └─ tools.ts   - 工具方法，包含一个非常常用的工具对象：cc
-│  ├─ views         - 页面目录，编写业务代码基本集中在这里
+│  └─ views         - 页面目录，编写业务代码基本集中在这里
 └─ vite.config.ts   - Vite配置文件
 ```
 
 ## 静态资源
 
-记住一个核心要义：所有在Vue组件中出现的静态图像资源，都必须放置在 `src/assets/images` 下，并且都必须要经过 `src/utils/assets.ts` 文件的控制来访问。`assets.ts` 管理静态资源的核心是基于Vite的静态资源处理能力，将静态资源的路径作为字符串引入（`import`），于是你可以看到 `assets.ts` 中有这样的代码：
+核心要义：所有在Vue组件中出现的静态图像资源，都必须放置在 `src/assets/images` 下，并且都必须要经过 `src/utils/assets.ts` 文件的控制来访问。`assets.ts` 管理静态资源的核心是基于Vite的静态资源处理能力，将静态资源的路径作为字符串引入（`import`），于是你可以看到 `assets.ts` 中有这样的代码：
 
 ```ts
 import vue from '@/assets/images/vue.svg'
@@ -217,13 +218,13 @@ export const assets = {
 
 ## 工具方法
 
-ToC已经对几乎所有常用基础功能进行了代码封装，并且被集成到了 `src/utils/tools.ts` 文件中，其导出一个名为 `cc` 的对象。
+CC已经对几乎所有常用基础功能进行了代码封装，并且被集成到了 `src/utils/tools.ts` 文件中，其导出一个名为 `cc` 的对象。
 
 目前，`cc` 已经包含了：页面切换、全局交互、选择本地文件等基础模块。你将在[CC Tools 文档](/cc-tools)中看到该工具对象的具体用法和介绍。
 
 ## 本地缓存
 
-ToC也针对本地缓存封装了一套API，ToC遵循**任何缓存都必须经过JSON序列化**的原则，`src/utils/storage.ts` 提供了这样的一套API。你只需要知道：
+CC也针对本地缓存封装了一套API，CC遵循**任何缓存都必须经过JSON序列化**的原则，`src/utils/storage.ts` 提供了这样的一套API。你只需要知道：
 
 - `storage.set` 往缓存里丢东西
 - `storage.get` 往缓存里拿东西
@@ -241,7 +242,7 @@ ToC也针对本地缓存封装了一套API，ToC遵循**任何缓存都必须经
 其中：
 
 - `app` 包含了应用配置，有WAP端的TabBar高度、PC端的Menu宽度、API前缀、根路径、PC端基准屏宽、默认标题栏标题、应用描述等等信息。
-- `color` 包含了全局颜色配置，有意思的是ToC在初始化时会将 `color` 中定义的颜色全部嵌入HTML的 `<body></body>` 中，采用了CSS变量的方法，于是你可以在任何Vue组件中使用CSS引用这些颜色，它们的命名规则是：
+- `color` 包含了全局颜色配置，有意思的是CC在初始化时会将 `color` 中定义的颜色全部嵌入HTML的 `<body></body>` 中，采用了CSS变量的方法，于是你可以在任何Vue组件中使用CSS引用这些颜色，它们的命名规则是：
 
   ```css
   --GLOBAL-${config.color定义的颜色名，下划线改为中划线}
@@ -271,9 +272,9 @@ ToC也针对本地缓存封装了一套API，ToC遵循**任何缓存都必须经
 
 ## 深入路由管理
 
-ToC的路由管理上很大程度上依赖于Vite提供的模块懒加载能力，其中 `import.meta.glob` 的用法可以参见[Vite官方文档](https://vitejs.cn/vite3-cn/guide/features.html#glob-import)对此的描述。
+CC的路由管理上很大程度上依赖于Vite提供的模块懒加载能力，其中 `import.meta.glob` 的用法可以参见[Vite官方文档](https://vitejs.cn/vite3-cn/guide/features.html#glob-import)对此的描述。
 
-ToC一共有三种路由：
+CC一共有三种路由：
 
 1. 特殊的白名单路由：可以显式地指定匹配路径、匹配组件、meta等等
 2. Tab路由：由 `src/tab.ts` 配置决定的路由，其命中路径会加上 `/t` 的前缀，匹配的组件在 `tab.ts` 中显式指定，同时还应指定该Tab栏的描述文字、装饰图标。
@@ -334,13 +335,13 @@ Tab模板的PC端Menu：
 
 ### 核心
 
-ToC的样式布局核心是**使用flex布局**，如果你对flex布局不是那么熟悉，请先熟悉官方文档中对flex布局的描述：[MDN 文档 | Flex 布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex)
+CC的样式布局核心是**使用flex布局**，如果你对flex布局不是那么熟悉，请先熟悉官方文档中对flex布局的描述：[MDN 文档 | Flex 布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex)
 
 ::: danger
 请注意，任何 `float` 布局是不被允许的！！
 :::
 
-ToC的双端响应式布局是借助**flex布局**和CSS中的**媒体查询**能力，以及在个别情况下借助TypeScript对屏幕宽度的变化监控来实现的。
+CC的双端响应式布局是借助**flex布局**和CSS中的**媒体查询**能力，以及在个别情况下借助TypeScript对屏幕宽度的变化监控来实现的。
 
 ### 不同的布局入口
 
@@ -367,7 +368,7 @@ const isWap = system.isWap
 
 ### views内的响应式
 
-在views内部，和layouts一样采用不同的Vue模板然后通过TS控制似乎不是一种很高效和友好的方式，ToC更推荐在views的内部使用CSS的**媒体查询**功能来完成响应式布局。
+在views内部，和layouts一样采用不同的Vue模板然后通过TS控制似乎不是一种很高效和友好的方式，CC更推荐在views的内部使用CSS的**媒体查询**功能来完成响应式布局。
 
 比如，在WAP端，卡片适合采用纵向flex，而PC端卡片适合采用自动换行的横向flex，那么就可以在CSS/SCSS中利用变量这么写：
 
@@ -413,4 +414,5 @@ const isWap = system.isWap
 @import "./assets/index.pc.scss";
 </style>
 ```
+
 :::

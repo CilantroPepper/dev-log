@@ -2,13 +2,14 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "CSZC - ToC",
-  description: "SCNU Computer School Comprehensive Evaluation System - ToC Subsystem",
+  title: "Cream Client",
+  description: "Cream Client - Responsive Application",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '主页', link: '/' },
-      { text: 'CC Tools', link: '/cc-tools' }
+      { text: 'CC Tools', link: '/cc-tools' },
+      { text: 'useApi Hook', link: '/hooks' }
     ],
 
     sidebar: [
@@ -17,16 +18,16 @@ export default defineConfig({
         items: [
           { text: '工程指南', link: '/guide' },
           { text: '编码规范', link: '/standard' },
-          { text: 'CC Tools文档', link: '/cc-tools' },
-          { text: 'Hooks文档', link: '/hooks' }
+          { text: 'CC Tools', link: '/cc-tools' },
+          { text: 'useApi Hook', link: '/hooks' }
         ]
       }
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/CilantroPepper/CSZC-ToC' }
+      { icon: 'github', link: 'https://github.com/CilantroPepper/Cream-Client' }
     ]
   },
   outDir: './docs',
-  
+
 })
